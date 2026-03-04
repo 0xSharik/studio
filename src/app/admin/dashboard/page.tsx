@@ -47,13 +47,13 @@ export default function AdminDashboard() {
   const [showCropper, setShowCropper] = useState(false);
   const [cropImageSrc, setCropImageSrc] = useState<string>("");
   const [finalImage, setFinalImage] = useState<string>("");
-  
+
   const [announcementForm, setAnnouncementForm] = useState({
     title: "",
     description: "",
     type: "news" as "news" | "update" | "event",
   });
-  
+
   const [gameForm, setGameForm] = useState({
     title: "",
     genre: "",
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
   });
   const gameImageRef = useRef<HTMLInputElement>(null);
   const [gameImage, setGameImage] = useState<File | null>(null);
-  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -130,12 +130,12 @@ export default function AdminDashboard() {
   const uploadToCloudinary = async (file: string): Promise<string> => {
     const formData = new FormData();
     formData.append("file", file);
-    
+
     const response = await fetch("/api/upload", {
       method: "POST",
       body: formData,
     });
-    
+
     const data = await response.json();
     if (data.url) {
       return data.url;
@@ -163,17 +163,17 @@ export default function AdminDashboard() {
       alert("Please select and crop an image");
       return;
     }
-    
+
     setUploading(true);
     try {
       const imageUrl = await uploadToCloudinary(finalImage);
-      
+
       await addDoc(collection(db, "games"), {
         ...gameForm,
         imageUrl,
         createdAt: new Date().toISOString(),
       });
-      
+
       setGameForm({ title: "", genre: "", status: "Coming Soon", downloadUrl: "" });
       setGameImage(null);
       setFinalImage("");
@@ -240,21 +240,19 @@ export default function AdminDashboard() {
         <div className="flex gap-4 mb-8">
           <button
             onClick={() => setActiveTab("announcements")}
-            className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-              activeTab === "announcements"
+            className={`px-4 py-2 rounded-lg font-bold transition-colors ${activeTab === "announcements"
                 ? "bg-cyan-400 text-black"
                 : "bg-white/10 text-white hover:bg-white/20"
-            }`}
+              }`}
           >
             Announcements
           </button>
           <button
             onClick={() => setActiveTab("games")}
-            className={`px-4 py-2 rounded-lg font-bold transition-colors ${
-              activeTab === "games"
+            className={`px-4 py-2 rounded-lg font-bold transition-colors ${activeTab === "games"
                 ? "bg-cyan-400 text-black"
                 : "bg-white/10 text-white hover:bg-white/20"
-            }`}
+              }`}
           >
             Games
           </button>
@@ -299,11 +297,11 @@ export default function AdminDashboard() {
                     <select
                       value={announcementForm.type}
                       onChange={(e) => setAnnouncementForm({ ...announcementForm, type: e.target.value as any })}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan-400 focus:outline-none"
+                      className="w-full bg-[#1a1a2e] border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan-400 focus:outline-none"
                     >
-                      <option value="news">News</option>
-                      <option value="update">Update</option>
-                      <option value="event">Event</option>
+                      <option value="news" className="bg-[#1a1a2e] text-white">News</option>
+                      <option value="update" className="bg-[#1a1a2e] text-white">Update</option>
+                      <option value="event" className="bg-[#1a1a2e] text-white">Event</option>
                     </select>
                   </div>
                   <button
@@ -384,11 +382,11 @@ export default function AdminDashboard() {
                     <select
                       value={gameForm.status}
                       onChange={(e) => setGameForm({ ...gameForm, status: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan-400 focus:outline-none"
+                      className="w-full bg-[#1a1a2e] border border-white/10 rounded-lg px-4 py-2 text-white focus:border-cyan-400 focus:outline-none"
                     >
-                      <option value="Released">Released</option>
-                      <option value="In Development">In Development</option>
-                      <option value="Coming Soon">Coming Soon</option>
+                      <option value="Released" className="bg-[#1a1a2e] text-white">Released</option>
+                      <option value="In Development" className="bg-[#1a1a2e] text-white">In Development</option>
+                      <option value="Coming Soon" className="bg-[#1a1a2e] text-white">Coming Soon</option>
                     </select>
                   </div>
                   <div>

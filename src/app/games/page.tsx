@@ -73,14 +73,16 @@ export default function GamesPage() {
                   ) : (
                     <div className={`absolute inset-0 bg-gradient-to-br ${getGradient(index)} opacity-30 group-hover:opacity-50 transition-opacity`} />
                   )}
-                  {/* Gradient overlay — dark at top edges, heavy at bottom for readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
+                  {/* Gradient overlay — heavy at bottom for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
                   <div className="absolute inset-0 flex flex-col justify-end p-6">
-                    <span className="text-cyan-400 text-xs font-semibold uppercase tracking-widest mb-1">{game.genre}</span>
-                    <h2 className="text-2xl font-bold text-white mb-3 drop-shadow-lg">{game.title}</h2>
+                    {/* Frosted text block so content is always readable */}
+                    <div className="backdrop-blur-sm bg-black/50 rounded-xl px-4 py-3 mb-3 border border-white/10">
+                      <span className="text-cyan-400 text-xs font-semibold uppercase tracking-widest block mb-1">{game.genre}</span>
+                      <h2 className="text-xl font-bold text-white leading-tight" style={{ textShadow: '0 2px 8px rgba(0,0,0,0.9)' }}>{game.title}</h2>
+                    </div>
                     <div className="flex gap-3 flex-wrap">
-                      <span className="px-3 py-1 bg-black/60 border border-white/25 backdrop-blur-sm rounded-full text-gray-200 text-xs font-medium">
+                      <span className="px-3 py-1 bg-black/70 border border-white/25 backdrop-blur-sm rounded-full text-gray-200 text-xs font-medium">
                         {game.status}
                       </span>
                       {game.downloadUrl && (
