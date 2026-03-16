@@ -64,6 +64,7 @@ export default function AdminDashboard() {
   const [showAnnouncementForm, setShowAnnouncementForm] = useState(false);
   const [showGameForm, setShowGameForm] = useState(false);
   const [showJournalForm, setShowJournalForm] = useState(false);
+  const [editingJournalId, setEditingJournalId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [showCropper, setShowCropper] = useState(false);
@@ -262,15 +263,35 @@ export default function AdminDashboard() {
   const handleJournalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, "journal"), {
-        ...journalForm,
-        date: new Date().toISOString(),
-      });
+      if (editingJournalId) {
+        await updateDoc(doc(db, "journal", editingJournalId), {
+          ...journalForm,
+        });
+        alert("Journal entry updated!");
+      } else {
+        await addDoc(collection(db, "journal"), {
+          ...journalForm,
+          date: new Date().toISOString(),
+        });
+        alert("Journal entry added!");
+      }
       setJournalForm({ week: "", title: "", content: "" });
+      setEditingJournalId(null);
       setShowJournalForm(false);
     } catch (err) {
-      console.error("Error adding journal entry:", err);
+      console.error("Error saving journal entry:", err);
     }
+  };
+
+  const handleEditJournal = (entry: JournalEntry) => {
+    setJournalForm({
+      week: entry.week,
+      title: entry.title,
+      content: entry.content,
+    });
+    setEditingJournalId(entry.id);
+    setShowJournalForm(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDeleteAnnouncement = async (id: string) => {
@@ -878,7 +899,13 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-white">Developer Journal</h2>
               <button
-                onClick={() => setShowJournalForm(!showJournalForm)}
+                onClick={() => {
+                  setShowJournalForm(!showJournalForm);
+                  if (editingJournalId) {
+                    setEditingJournalId(null);
+                    setJournalForm({ week: "", title: "", content: "" });
+                  }
+                }}
                 className="bg-cyan-400 text-black font-bold px-4 py-2 rounded-lg hover:bg-cyan-500 transition-colors"
               >
                 {showJournalForm ? "Cancel" : "Add Entry"}
@@ -887,6 +914,9 @@ export default function AdminDashboard() {
 
             {showJournalForm && (
               <form onSubmit={handleJournalSubmit} className="bg-white/5 border border-white/10 rounded-xl p-6 mb-8">
+                <h3 className="text-lg font-bold text-white mb-4">
+                  {editingJournalId ? "Edit Journal Entry" : "Create New Entry"}
+                </h3>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -926,7 +956,7 @@ export default function AdminDashboard() {
                     type="submit"
                     className="bg-cyan-400 text-black font-bold px-6 py-2 rounded-lg hover:bg-cyan-500 transition-colors"
                   >
-                    Save Entry
+                    {editingJournalId ? "Update Entry" : "Save Entry"}
                   </button>
                 </div>
               </form>
@@ -943,12 +973,20 @@ export default function AdminDashboard() {
                     <h3 className="text-white font-bold text-xl mt-1">{item.title}</h3>
                     <p className="text-gray-400 mt-2 line-clamp-2">{item.content}</p>
                   </div>
-                  <button
-                    onClick={() => handleDeleteJournal(item.id)}
-                    className="text-red-400 hover:text-red-300 transition-colors"
-                  >
-                    Delete
-                  </button>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={() => handleEditJournal(item)}
+                      className="text-cyan-400 hover:text-cyan-300 transition-colors"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteJournal(item.id)}
+                      className="text-red-400 hover:text-red-300 transition-colors"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
               {journalEntries.length === 0 && (
