@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
-  const file = formData.get("file") as File;
+  const fileOrDataUri = formData.get("file");
 
-  if (!file) {
+  if (!fileOrDataUri) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
@@ -16,10 +16,18 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const base64 = buffer.toString("base64");
-    const dataUri = `data:${file.type};base64,${base64}`;
+    let dataUri: string;
+
+    if (typeof fileOrDataUri === "string") {
+      // Already a data URI string (from image cropper)
+      dataUri = fileOrDataUri;
+    } else {
+      // It's a File object
+      const bytes = await fileOrDataUri.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const base64 = buffer.toString("base64");
+      dataUri = `data:${fileOrDataUri.type};base64,${base64}`;
+    }
 
     const uploadFormData = new FormData();
     uploadFormData.append("file", dataUri);
@@ -35,7 +43,6 @@ export async function POST(request: NextRequest) {
 
     const result = await response.json();
     console.log("Cloudinary response status:", response.status);
-    console.log("Cloudinary response:", result);
 
     if (result.secure_url) {
       return NextResponse.json({ url: result.secure_url });

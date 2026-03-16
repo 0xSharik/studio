@@ -62,7 +62,7 @@ function FallbackLogo() {
         </mesh>
         <Html center>
           <div className="text-cyan-400 font-bold text-lg whitespace-nowrap">
-            STUDIO
+            TxNB
           </div>
         </Html>
       </group>

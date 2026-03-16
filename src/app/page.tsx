@@ -3,8 +3,12 @@ import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
 import { Hero } from "@/components/sections/Hero";
-import { Games } from "@/components/sections/Games";
+import { WhoWeAre } from "@/components/sections/WhoWeAre";
+import { FeaturedGame } from "@/components/sections/FeaturedGame";
+import { DeveloperJournal } from "@/components/sections/DeveloperJournal";
 import { Announcements } from "@/components/sections/Announcements";
+import { JoinCommunity } from "@/components/sections/JoinCommunity";
+import { StayUpdated } from "@/components/sections/StayUpdated";
 
 export default function Home() {
   return (
@@ -13,8 +17,12 @@ export default function Home() {
       <main className="min-h-screen">
         <Navbar />
         <Hero />
+        <WhoWeAre />
+        <FeaturedGame />
+        <DeveloperJournal />
         <Announcements />
-        <Games />
+        <JoinCommunity />
+        <StayUpdated />
         <Footer />
       </main>
     </SmoothScroll>

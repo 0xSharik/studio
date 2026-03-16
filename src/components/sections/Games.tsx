@@ -23,13 +23,19 @@ export function Games() {
 
   useEffect(() => {
     const q = query(collection(db, "games"), orderBy("title", "asc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as Game[];
-      setGames(data);
-    });
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Game[];
+        setGames(data);
+      },
+      (error) => {
+        console.error("[Games] Firestore error:", error.code, error.message);
+      }
+    );
     return () => unsubscribe();
   }, []);
 
@@ -52,7 +58,7 @@ export function Games() {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [games]);
 
   const getGradient = (index: number) => {
     const gradients = [
@@ -93,7 +99,6 @@ export function Games() {
                   className={`absolute inset-0 bg-gradient-to-br ${getGradient(index)} opacity-30 group-hover:opacity-50 transition-opacity`}
                 />
               )}
-              {/* Bottom-heavy gradient so text is always legible */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent" />
               <div className="absolute inset-0 flex flex-col items-center justify-end p-8">
                 <span

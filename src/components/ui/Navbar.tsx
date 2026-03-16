@@ -99,20 +99,18 @@ export function Navbar() {
       */}
       <nav
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out ${isScrolled
-            ? "bg-black/90 backdrop-blur-xl rounded-full border border-cyan-500/30 shadow-2xl shadow-cyan-500/20 px-8 py-2 max-w-2xl w-[90vw]"
-            : "bg-transparent border-transparent px-4 py-4 w-full max-w-7xl"
+          ? "bg-black/90 backdrop-blur-xl rounded-full border border-cyan-500/30 shadow-2xl shadow-cyan-500/20 px-8 py-2 max-w-2xl w-[90vw]"
+          : "bg-transparent border-transparent px-4 py-4 w-full max-w-7xl"
           }`}
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link href="/">
-            <span
-              className={`font-mono font-black tracking-wider transition-all duration-500 ${isScrolled ? "text-base" : "text-xl"
-                }`}
-            >
-              <span className="text-cyan-400">GAME</span>
-              <span className="text-white">STUDIO</span>
-            </span>
+            <img
+              src="/logo.png"
+              alt="TxNB Esports"
+              className={`object-cover object-center transition-all duration-500 w-[160px] ${isScrolled ? "h-16" : "h-28"}`}
+            />
           </Link>
 
           {/* Desktop Links */}
@@ -199,7 +197,7 @@ export function Navbar() {
 
         {/* Footer strip */}
         <div className="absolute bottom-8 left-0 right-0 text-center">
-          <p className="text-xs text-white/30 tracking-widest font-mono">GAME STUDIO © 2026</p>
+          <p className="text-xs text-white/30 tracking-widest font-mono">TxNB ESPORTS © 2026</p>
         </div>
       </div>
     </>

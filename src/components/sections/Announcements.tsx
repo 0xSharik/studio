@@ -13,7 +13,7 @@ interface Announcement {
   title: string;
   description: string;
   date: string;
-  type: "news" | "update" | "event";
+  type: "news" | "update" | "event" | "game_release" | "coming_soon";
 }
 
 const defaultAnnouncements: Announcement[] = [
@@ -46,15 +46,21 @@ export function Announcements() {
 
   useEffect(() => {
     const q = query(collection(db, "announcements"), orderBy("date", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      if (!snapshot.empty) {
-        const data = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        })) as Announcement[];
-        setAnnouncements(data);
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        if (!snapshot.empty) {
+          const data = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })) as Announcement[];
+          setAnnouncements(data);
+        }
+      },
+      (error) => {
+        console.error("[Announcements] Firestore error:", error.code, error.message);
       }
-    });
+    );
     return () => unsubscribe();
   }, []);
 
@@ -87,6 +93,10 @@ export function Announcements() {
         return "text-green-400";
       case "event":
         return "text-magenta-400";
+      case "game_release":
+        return "text-yellow-400 font-bold";
+      case "coming_soon":
+        return "text-orange-400";
       default:
         return "text-gray-400";
     }
@@ -107,7 +117,7 @@ export function Announcements() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <span className={`text-xs uppercase tracking-wider ${getTypeColor(item.type)}`}>
-                    {item.type}
+                    {item.type.replace("_", " ")}
                   </span>
                   <h3 className="text-xl font-bold text-white mt-1">{item.title}</h3>
                   <p className="text-gray-400 mt-2">{item.description}</p>

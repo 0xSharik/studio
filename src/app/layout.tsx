@@ -9,8 +9,8 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "GameStudio - Creating Legends",
-  description: "A cutting-edge gaming studio crafting immersive experiences",
+  title: "TxNB Esports - Creating Legends",
+  description: "TxNB Esports — a cutting-edge gaming studio crafting immersive experiences",
 };
 
 export default function RootLayout({

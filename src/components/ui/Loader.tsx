@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const loadingSteps = [
   "Initializing system...",
-  "Welcome to GAMESTUDIO",
+  "Welcome to TxNB Esports",
   "Loading 3D assets...",
   "Fetching games data...",
   "Fetching announcements...",

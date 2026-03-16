@@ -21,7 +21,7 @@ export function AppLoader({ children }: AppLoaderProps) {
   return (
     <>
       {loading && <Loader />}
-      {children}
+      <div id="page-content">{children}</div>
     </>
   );
 }
