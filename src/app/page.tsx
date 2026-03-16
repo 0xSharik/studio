@@ -14,15 +14,17 @@ export default function Home() {
   return (
     <SmoothScroll>
       <Scene />
-      <main className="min-h-screen">
+      <main className="min-h-screen flex flex-col">
         <Navbar />
-        <Hero />
-        <WhoWeAre />
-        <FeaturedGame />
-        <DeveloperJournal />
-        <Announcements />
-        <JoinCommunity />
-        <StayUpdated />
+        <div className="flex-grow">
+          <Hero />
+          <WhoWeAre />
+          <FeaturedGame />
+          <DeveloperJournal />
+          <Announcements />
+          <JoinCommunity />
+          <StayUpdated />
+        </div>
         <Footer />
       </main>
     </SmoothScroll>

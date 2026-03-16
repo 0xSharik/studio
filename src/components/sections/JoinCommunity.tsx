@@ -3,31 +3,38 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Disc as Discord, Youtube, Instagram, MessageSquare } from "lucide-react";
+import { Disc as Discord, Youtube, Instagram, MessageSquare, Linkedin } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SOCIAL_LINKS = [
   {
     name: "Discord",
-    url: "https://discord.gg/txnb",
+    url: "https://discord.gg/kKngDdFQ",
     icon: MessageSquare,
     color: "from-[#5865F2] to-[#4752C4]",
     shadow: "shadow-[#5865F2]/20"
   },
   {
     name: "YouTube",
-    url: "https://youtube.com/@txnb",
+    url: "https://www.youtube.com/@TxNBesports",
     icon: Youtube,
     color: "from-[#FF0000] to-[#CC0000]",
     shadow: "shadow-[#FF0000]/20"
   },
   {
     name: "Instagram",
-    url: "https://instagram.com/txnb_esports",
+    url: "https://www.instagram.com/txnb_esports?igsh=MW01ZGRwMjBpOHYzZA==",
     icon: Instagram,
     color: "from-[#E4405F] to-[#D62976]",
     shadow: "shadow-[#E4405F]/20"
+  },
+  {
+    name: "Linkedin",
+    url: "https://www.linkedin.com/company/txnb/",
+    icon: Linkedin,
+    color: "from-[#0077B5] to-[#005582]",
+    shadow: "shadow-[#0077B5]/20"
   }
 ];
 
@@ -88,27 +95,30 @@ export function JoinCommunity() {
         </h2>
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-          {SOCIAL_LINKS.map((social) => (
-            <a
-              key={social.name}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`social-btn group relative flex items-center gap-4 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-white/10 ${social.shadow} hover:shadow-2xl`}
-            >
-              {/* Animated background glow */}
-              <div className={`absolute inset-0 bg-gradient-to-r ${social.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity`} />
-              
-              <social.icon className="w-8 h-8 text-white transition-transform group-hover:scale-110" />
-              <div className="text-left">
-                <span className="block text-xs font-mono text-gray-500 uppercase tracking-widest group-hover:text-cyan-400 transition-colors">Follow us on</span>
-                <span className="block text-xl font-bold text-white tracking-tight">{social.name}</span>
-              </div>
-              
-              {/* Border accent */}
-              <div className="absolute -bottom-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
-          ))}
+          {SOCIAL_LINKS.map((social) => {
+            const Icon = social.icon;
+            return (
+              <a
+                key={social.name}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`social-btn group relative flex items-center gap-4 px-8 py-4 bg-white/5 border border-white/10 rounded-2xl transition-all duration-300 hover:scale-105 hover:bg-white/10 ${social.shadow} hover:shadow-2xl`}
+              >
+                {/* Animated background glow */}
+                <div className={`absolute inset-0 bg-gradient-to-r ${social.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity`} />
+
+                <Icon className="w-8 h-8 text-white transition-transform group-hover:scale-110" />
+                <div className="text-left">
+                  <span className="block text-xs font-mono text-gray-500 uppercase tracking-widest group-hover:text-cyan-400 transition-colors">Follow us on</span>
+                  <span className="block text-xl font-bold text-white tracking-tight">{social.name}</span>
+                </div>
+
+                {/* Border accent */}
+                <div className="absolute -bottom-px left-8 right-8 h-px bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              </a>
+            );
+          })}
         </div>
 
         {/* Decorative divider */}
